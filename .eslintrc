@@ -42,6 +42,17 @@
           { "devDependencies": true }
         ]
       }
+    },
+    {
+      "files" : ["*.stories.tsx"],
+      "rules": {
+        "import/no-extraneous-dependencies": [
+          "error",
+          { "devDependencies": true }
+        ],
+        "react/function-component-definition": ["off"],
+        "react/jsx-props-no-spreading": ["off"]
+      }
     }
   ]
 }

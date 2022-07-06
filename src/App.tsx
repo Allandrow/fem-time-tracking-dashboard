@@ -1,44 +1,31 @@
 import { useState } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useQuery } from 'react-query';
+import UserCard from 'components';
+import TimeCard, { TimeCardData } from 'components/TimeCard/TimeCard';
+
+export type Time = 'daily' | 'weekly' | 'monthly';
+
+interface FetchData {
+  name: string;
+  data: TimeCardData[];
+}
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [time, setTime] = useState('weekly' as Time);
+
+  const { data } = useQuery<FetchData>('data', () =>
+    fetch('data/data.json').then((res) => res.json()),
+  );
+
+  if (!data) return null;
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button
-            type="button"
-            onClick={() => setCount((previousCount) => previousCount + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer">
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer">
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
+    <section className="grid">
+      <UserCard name={data.name} clickHandler={setTime} />
+      {data.data.map((cardData) => (
+        <TimeCard cardData={cardData} time={time} />
+      ))}
+    </section>
   );
 }
 

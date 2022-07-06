@@ -12,6 +12,8 @@ dist
 dist-ssr
 *.local
 .eslintcache
+starter-files
+stories
 
 # Editor directories and files
 .vscode/*
